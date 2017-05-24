@@ -20,19 +20,19 @@ UserClass.prototype.sendVerifyCode = function(callback) {
         let email = new Emailer({
             from: "18258209871@163.com",
             to: _self.params.email,
-            subject: "WeTalk验证码",
+            subject: "MicroChat",
             html: "<!DOCTYPE html>" +
                 "<html>" +
                 "<head>" +
-                "<title>weTalk</title>" +
+                "<title>MicroChat</title>" +
                 "<meta charset='utf-8'/>" +
                 "</head>" +
                 "<body>" +
-                "<div class='wrap' style='min-width:960px;margin: auto;'>" +
-                "<h3 style='text-align:center;background:#605ca8;color:#fff;padding:10px;margin:0;'>WeTalk</h3>" +
-                "<div style='color: #605ca8;background-color: #ecf0f5;min-height: 200px;padding: 10px 40px;margin:0;'>" +
-                "<p>Hi, 你的验证码是: " + fourRandomCode + "</p >" +
-                "<p> By: 陈果</p >" +
+                "<div class='wrap' style='min-width:960px;margin:auto;border:1px solid #D3DCE6;border-radius:10px;'>" +
+                "<h2 style='font-size:26px;font-weight:bold;text-align:center;color:#1D8CE0;padding:10px;margin:0;border-bottom:1px solid #D3DCE6;'>MicroChat</h2>" +
+                "<div style='color: #48576a;min-height: 200px;padding:10px 40px;margin:0;'>" +
+                "<p>Hi,欢迎加入MicroChat。您的验证码是:<span style='color:#1D8CE0'> " + fourRandomCode + "</span></p >" +
+                "<p style='color:#1D8CE0'> @MicroChat</p >" +
                 "</div>" +
                 "</div>" +
                 "</body>" +
@@ -216,8 +216,8 @@ UserClass.prototype.regist = function(callback) {
                 (function() {
                     users[i].username = _self.params.username;
                     users[i].password = _self.params.password;
-                    users[i].avatar = _self.params.avatar;
-                    users[i].cover = _self.params.cover;
+                    users[i].avatar = "http://placehold.it/400x400";
+                    users[i].cover = "http://placehold.it/800x450";
                     users[i].isActive = 1;
                     users[i].created_at = new Date().getTime();
                     users[i].updated_at = new Date().getTime();

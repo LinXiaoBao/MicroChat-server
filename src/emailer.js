@@ -4,8 +4,8 @@ const config = require('../config/config'),
 //配置邮件
 const transporter = nodemailer.createTransport({
     host: "smtp.163.com",
-    secureConnection: false,
-    port:465,
+    secureConnection: true,
+    port: 465,
     auth: {
         user: config.email.user,
         pass: config.email.pass,
