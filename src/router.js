@@ -5,7 +5,7 @@ const config = require('../config/config'),
 
 module.exports = (app, io) => {
     // 发送验证码
-    app.post('/user/sendVerifyCode', (req, res) => {
+    app.post('/server/user/sendVerifyCode', (req, res) => {
         var user = new User({
             email: req.body.email
         });
@@ -15,7 +15,7 @@ module.exports = (app, io) => {
         });
     });
     // 验证
-    app.post('/user/verify', (req, res) => {
+    app.post('/server/user/verify', (req, res) => {
         var user = new User({
             email: req.body.email,
             verifyCode: req.body.verifyCode
@@ -26,7 +26,7 @@ module.exports = (app, io) => {
         });
     });
     // 注册
-    app.post('/user/regist', (req, res) => {
+    app.post('/server/user/regist', (req, res) => {
         var user = new User(req.body);
         user.regist((data) => {
             if(data.success){
@@ -37,7 +37,7 @@ module.exports = (app, io) => {
         });
     });
     // 登录
-    app.post('/user/login', (req, res) => {
+    app.post('/server/user/login', (req, res) => {
         var user = new User(req.body);
         user.login((data) => {
             if(data.success){
@@ -48,7 +48,7 @@ module.exports = (app, io) => {
         });
     });
     // 退出
-    app.post('/user/logout', (req, res) => {
+    app.post('/server/user/logout', (req, res) => {
         var user = new User({
             userId: req.cookies.userId
         });
@@ -61,7 +61,7 @@ module.exports = (app, io) => {
         });
     });
     // 获取当前登录用户的基本信息
-    app.get('/user/profile', (req, res) => {
+    app.get('/server/user/profile', (req, res) => {
         var user = new User({
             userId: req.cookies.userId
         });
@@ -71,7 +71,7 @@ module.exports = (app, io) => {
         });
     });
     // 根据userId获取用户的基本信息
-    app.post('/user/profile/by/userId', (req, res) => {
+    app.post('/server/user/profile/by/userId', (req, res) => {
         var user = new User({
             userIdLogin: req.cookies.userId,
             userId: req.body.userId
@@ -82,7 +82,7 @@ module.exports = (app, io) => {
         });
     });
     // 关注某人
-    app.post('/user/follow', (req, res) => {
+    app.post('/server/user/follow', (req, res) => {
         var user = new User({
             userIdLogin: req.cookies.userId,
             userId: req.body.userId
@@ -93,7 +93,7 @@ module.exports = (app, io) => {
         });
     });
     // 取消关注
-    app.post('/user/unfollow', (req, res) => {
+    app.post('/server/user/unfollow', (req, res) => {
         var user = new User({
             userIdLogin: req.cookies.userId,
             userId: req.body.userId
@@ -104,7 +104,7 @@ module.exports = (app, io) => {
         });
     });
     // 获取关注列表
-    app.post('/user/getFollowingList', (req, res) => {
+    app.post('/server/user/getFollowingList', (req, res) => {
         var user = new User({
             userId: req.body.userId
         });
@@ -114,7 +114,7 @@ module.exports = (app, io) => {
         });
     });
     // 获取粉丝列表
-    app.post('/user/getFollowerList', (req, res) => {
+    app.post('/server/user/getFollowerList', (req, res) => {
         var user = new User({
             userIdLogin: req.cookies.userId,
             userId: req.body.userId
@@ -126,7 +126,7 @@ module.exports = (app, io) => {
     });
 
     // 修改个人信息
-    app.post('/user/setting', (req, res) => {
+    app.post('/server/user/setting', (req, res) => {
         var user = new User({
             userId: req.cookies.userId,
             username: req.body.username,
@@ -143,7 +143,7 @@ module.exports = (app, io) => {
     });
 
     // 发布文章
-    app.post('/post/publish', (req, res) => {
+    app.post('/server/post/publish', (req, res) => {
         var post = new Post({
             userId: req.cookies.userId,
             content: req.body.content,
@@ -157,7 +157,7 @@ module.exports = (app, io) => {
     });
 
     // 获取所有文章列表
-    app.post('/post/all/list', (req, res) => {
+    app.post('/server/post/all/list', (req, res) => {
         var post = new Post({
             userId: req.cookies.userId,
         });
@@ -168,7 +168,7 @@ module.exports = (app, io) => {
         });
     });
     //  获取关注的人的文章列表
-    app.post('/post/following/list', (req, res) => {
+    app.post('/server/post/following/list', (req, res) => {
         var post = new Post({
             userId: req.cookies.userId,
         });
@@ -179,7 +179,7 @@ module.exports = (app, io) => {
         });
     });
     // 按userId获取文章列表
-    app.post('/post/list/by/userId', (req, res) => {
+    app.post('/server/post/list/by/userId', (req, res) => {
         var post = new Post({
             userId: req.body.userId,
         });
@@ -190,7 +190,7 @@ module.exports = (app, io) => {
         });
     });
     // 获取我的文章列表
-    app.post('/post/my/list', (req, res) => {
+    app.post('/server/post/my/list', (req, res) => {
         var post = new Post({
             userId: req.cookies.userId,
         });
@@ -201,7 +201,7 @@ module.exports = (app, io) => {
         });
     });
     // 删除文章
-    app.post('/post/remove', (req, res) => {
+    app.post('/server/post/remove', (req, res) => {
         var post = new Post({
             postId: req.body.postId,
         });
@@ -213,7 +213,7 @@ module.exports = (app, io) => {
     });
 
     // 点赞
-    app.post('/post/approve', (req, res) => {
+    app.post('/server/post/approve', (req, res) => {
         var post = new Post({
             postId: req.body.postId,
             userId: req.cookies.userId,
@@ -227,7 +227,7 @@ module.exports = (app, io) => {
         });
     });
     // 取消点赞
-    app.post('/post/disapprove', (req, res) => {
+    app.post('/server/post/disapprove', (req, res) => {
         var post = new Post({
             postId: req.body.postId,
             userId: req.cookies.userId,
@@ -239,7 +239,7 @@ module.exports = (app, io) => {
         });
     });
     // 收藏文章
-    app.post('/post/collect', (req, res) => {
+    app.post('/server/post/collect', (req, res) => {
         var post = new Post({
             postId: req.body.postId,
             userId: req.cookies.userId,
@@ -253,7 +253,7 @@ module.exports = (app, io) => {
         });
     });
     // 取消收藏
-    app.post('/post/discollect', (req, res) => {
+    app.post('/server/post/discollect', (req, res) => {
         var post = new Post({
             postId: req.body.postId,
             userId: req.cookies.userId
@@ -265,7 +265,7 @@ module.exports = (app, io) => {
         });
     });
     // 获取登录者的收藏列表
-    app.post('/post/collected/list', (req, res) => {
+    app.post('/server/post/collected/list', (req, res) => {
         var post = new Post({
             userId: req.cookies.userId,
         });
@@ -276,7 +276,7 @@ module.exports = (app, io) => {
         });
     });
     // 评论文章
-    app.post('/post/comment', (req, res) => {
+    app.post('/server/post/comment', (req, res) => {
         var post = new Post({
             postId: req.body.postId,
             comment: {
@@ -293,7 +293,7 @@ module.exports = (app, io) => {
         });
     });
     // 删除评论
-    app.post('/post/delComment', (req, res) => {
+    app.post('/server/post/delComment', (req, res) => {
         if(req.body.userId !== req.cookies.userId){
             res.json({
                 data: null,
@@ -315,7 +315,7 @@ module.exports = (app, io) => {
         }
     });
     // 按名称搜索用户列表
-    app.post('/search/userListByName', (req, res) => {
+    app.post('/server/search/userListByName', (req, res) => {
         let search = new Search({ 
             userIdLogin: req.cookies.userId,
             username: req.body.username 
