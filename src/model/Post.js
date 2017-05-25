@@ -7,6 +7,7 @@ const postSchema = new Schema({
     userId: String,
     username: String,
     avatar: String,
+    title: String,
     content: String,
     photos: [{ type: String, _id: false }],
     comments: [{

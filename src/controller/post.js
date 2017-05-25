@@ -137,6 +137,7 @@ PostClass.prototype.publishPost = function (callback) {
 	        userId : _self.params.userId,
 			username: docUser.username,
 			avatar: docUser.avatar,
+		    title : _self.params.title,
 		    content : _self.params.content,
 		    photos : _self.params.photos,
 		    comments : [],
