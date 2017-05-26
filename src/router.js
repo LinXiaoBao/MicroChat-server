@@ -70,6 +70,22 @@ module.exports = (app, io) => {
             res.end();
         });
     });
+    // 修改个人信息
+    app.post('/user/setting', (req, res) => {
+        var user = new User({
+            userId: req.cookies.userId,
+            username: req.body.username,
+            passwordNew: req.body.passwordNew,
+            passwordOld: req.body.passwordOld,
+            signature: req.body.signature,
+            avatar: req.body.avatar,
+            cover: req.body.cover
+        });
+        user.updateProfile((data) => {
+            res.json(data);
+            res.end();
+        });
+    });
     // 根据userId获取用户的基本信息
     app.post('/user/profile/by/userId', (req, res) => {
         var user = new User({
@@ -125,23 +141,6 @@ module.exports = (app, io) => {
         });
     });
 
-    // 修改个人信息
-    app.post('/user/setting', (req, res) => {
-        var user = new User({
-            userId: req.cookies.userId,
-            username: req.body.username,
-            passwordNew: req.body.passwordNew,
-            passwordOld: req.body.passwordOld,
-            signature: req.body.signature,
-            avatar: req.body.avatar,
-            cover: req.body.cover
-        });
-        user.updateProfile((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
-
     // 发布文章
     app.post('/post/publish', (req, res) => {
         console.log(`cookie: ${req.cookies.userId}`);
@@ -158,40 +157,6 @@ module.exports = (app, io) => {
             res.end();
         });
     });
-
-    // 获取所有文章列表
-    app.post('/post/all/list', (req, res) => {
-        var post = new Post({
-            userId: req.cookies.userId,
-        });
-
-        post.getAllPostList((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
-    //  获取关注的人的文章列表
-    app.post('/post/following/list', (req, res) => {
-        var post = new Post({
-            userId: req.cookies.userId,
-        });
-
-        post.getFollowingPostList((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
-    // 按userId获取文章列表
-    app.post('/post/list/by/userId', (req, res) => {
-        var post = new Post({
-            userId: req.body.userId,
-        });
-
-        post.getPostListByUserId((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
     // 获取我的文章列表
     app.post('/post/my/list', (req, res) => {
         var post = new Post({
@@ -203,18 +168,17 @@ module.exports = (app, io) => {
             res.end();
         });
     });
-    // 删除文章
-    app.post('/post/remove', (req, res) => {
+    //  获取我和我关注的人的文章列表
+    app.post('/post/following/list', (req, res) => {
         var post = new Post({
-            postId: req.body.postId,
+            userId: req.cookies.userId,
         });
 
-        post.removeOnePost((data) => {
+        post.getFollowingPostList((data) => {
             res.json(data);
             res.end();
         });
     });
-
     // 点赞
     app.post('/post/approve', (req, res) => {
         var post = new Post({
@@ -263,6 +227,28 @@ module.exports = (app, io) => {
         });
 
         post.discollectPost((data) => {
+            res.json(data);
+            res.end();
+        });
+    });
+    // 按userId获取文章列表
+    app.post('/post/list/by/userId', (req, res) => {
+        var post = new Post({
+            userId: req.body.userId,
+        });
+
+        post.getPostListByUserId((data) => {
+            res.json(data);
+            res.end();
+        });
+    });
+    // 删除文章
+    app.post('/post/remove', (req, res) => {
+        var post = new Post({
+            postId: req.body.postId,
+        });
+
+        post.removeOnePost((data) => {
             res.json(data);
             res.end();
         });
@@ -316,6 +302,17 @@ module.exports = (app, io) => {
                 res.end();
             });
         }
+    });
+    // 获取所有文章列表
+    app.post('/post/all/list', (req, res) => {
+        var post = new Post({
+            userId: req.cookies.userId,
+        });
+
+        post.getAllPostList((data) => {
+            res.json(data);
+            res.end();
+        });
     });
     // 按名称搜索用户列表
     app.post('/search/userListByName', (req, res) => {
