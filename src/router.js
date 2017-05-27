@@ -61,7 +61,7 @@ module.exports = (app, io) => {
         });
     });
     // 获取当前登录用户的基本信息
-    app.get('/user/profile', (req, res) => {
+    app.post('/user/profile', (req, res) => {
         var user = new User({
             userId: req.cookies.userId
         });
@@ -86,13 +86,13 @@ module.exports = (app, io) => {
             res.end();
         });
     });
-    // 根据userId获取用户的基本信息
-    app.post('/user/profile/by/userId', (req, res) => {
-        var user = new User({
+    // 按用户名模糊搜索用户列表
+    app.post('/search/userListByName', (req, res) => {
+        let search = new Search({ 
             userIdLogin: req.cookies.userId,
-            userId: req.body.userId
+            username: req.body.username 
         });
-        user.getUserProfileById((data) => {
+        search.searchUserListByName((data) => {
             res.json(data);
             res.end();
         });
@@ -168,7 +168,7 @@ module.exports = (app, io) => {
             res.end();
         });
     });
-    //  获取我和我关注的人的文章列表
+    // 获取我和我关注的人的文章列表
     app.post('/post/following/list', (req, res) => {
         var post = new Post({
             userId: req.cookies.userId,
@@ -231,39 +231,6 @@ module.exports = (app, io) => {
             res.end();
         });
     });
-    // 按userId获取文章列表
-    app.post('/post/list/by/userId', (req, res) => {
-        var post = new Post({
-            userId: req.body.userId,
-        });
-
-        post.getPostListByUserId((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
-    // 删除文章
-    app.post('/post/remove', (req, res) => {
-        var post = new Post({
-            postId: req.body.postId,
-        });
-
-        post.removeOnePost((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
-    // 获取登录者的收藏列表
-    app.post('/post/collected/list', (req, res) => {
-        var post = new Post({
-            userId: req.cookies.userId,
-        });
-
-        post.getCollectionList((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
     // 评论文章
     app.post('/post/comment', (req, res) => {
         var post = new Post({
@@ -303,6 +270,50 @@ module.exports = (app, io) => {
             });
         }
     });
+    // 删除文章
+    app.post('/post/remove', (req, res) => {
+        var post = new Post({
+            postId: req.body.PostId,
+        });
+
+        post.removeOnePost((data) => {
+            res.json(data);
+            res.end();
+        });
+    });
+    // 获取登录者的收藏列表
+    app.post('/post/collected/list', (req, res) => {
+        var post = new Post({
+            userId: req.cookies.userId,
+        });
+
+        post.getCollectionList((data) => {
+            res.json(data);
+            res.end();
+        });
+    });
+    // 根据userId获取用户的基本信息
+    app.post('/user/profile/by/userId', (req, res) => {
+        var user = new User({
+            userIdLogin: req.cookies.userId,
+            userId: req.body.userId
+        });
+        user.getUserProfileById((data) => {
+            res.json(data);
+            res.end();
+        });
+    });
+    // 按userId获取文章列表
+    app.post('/post/list/by/userId', (req, res) => {
+        var post = new Post({
+            userId: req.body.userId,
+        });
+
+        post.getPostListByUserId((data) => {
+            res.json(data);
+            res.end();
+        });
+    });
     // 获取所有文章列表
     app.post('/post/all/list', (req, res) => {
         var post = new Post({
@@ -310,17 +321,6 @@ module.exports = (app, io) => {
         });
 
         post.getAllPostList((data) => {
-            res.json(data);
-            res.end();
-        });
-    });
-    // 按名称搜索用户列表
-    app.post('/search/userListByName', (req, res) => {
-        let search = new Search({ 
-            userIdLogin: req.cookies.userId,
-            username: req.body.username 
-        });
-        search.searchUserListByName((data) => {
             res.json(data);
             res.end();
         });
