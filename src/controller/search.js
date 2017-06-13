@@ -27,22 +27,35 @@ SearchClass.prototype.searchUserListByName = function(callback) {
             });
             return;
         }
-        let userList = [];
+        UserModel.findById(_self.params.userIdLogin, (err, doc) => {
+            if (err || !doc) {
+                callback({
+                    success: false,
+                    errorMsg: '按名称搜索用户列表失败',
+                    errorCode: 432,
+                    data: null
+                });
+                return;
+            }
+            
+            let userList = [];
 
-        for(let i=0;i<docs.length;i++){
-            let item = {
-                userId: docs[i]._id,
-                username: docs[i].username,
-                avatar: docs[i].avatar
-            };
-            userList.push(item);
-        }
+            for(let i=0;i<docs.length;i++){
+                let item = {
+                    userId: docs[i]._id,
+                    username: docs[i].username,
+                    avatar: docs[i].avatar,
+                    followed: (doc.following.indexOf(docs[i]._id)>-1)?true:false
+                };
+                userList.push(item);
+            }
 
-        callback({
-            success: true,
-            errorMsg: "按名称搜索用户列表失败成功",
-            errorCode: 200,
-            data: userList
+            callback({
+                success: true,
+                errorMsg: "按名称搜索用户列表失败成功",
+                errorCode: 200,
+                data: userList
+            });
         });
     });
 }
